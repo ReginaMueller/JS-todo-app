@@ -1,6 +1,9 @@
 const todo_list = document.getElementById("todo-list");
 const add_button = document.getElementById("add");
 const rmv_button = document.getElementById("remove");
+const all_filter = document.getElementById("all");
+const open_filter = document.getElementById("open");
+const done_filter = document.getElementById("done");
 const localStorageKey = "key";
 
 let state = [];
@@ -24,8 +27,18 @@ function updateLocalStorage() {
 
 function visualizeState() {
   if (state.length != 0) {
-    for (let todo of state) {
-      visualize(todo);
+    if (all_filter.checked) {
+      for (let todo of state) {
+        visualize(todo);
+      }
+    } else if (open_filter.checked) {
+      for (let todo of state) {
+        if (!todo.done) visualize(todo);
+      }
+    } else if (done_filter.checked) {
+      for (let todo of state) {
+        if (todo.done) visualize(todo);
+      }
     }
   }
 }
@@ -69,7 +82,7 @@ function createTodoObject(todo_txt) {
 
 add_button.addEventListener("click", () => {
   const todo_input = document.getElementById("input");
-  const todoObject = createTodoObject(todo_input.value);
+  const todoObject = createTodoObject(todo_input.value.trim());
   visualize(todoObject);
   state.push(todoObject);
   updateLocalStorage();
@@ -80,5 +93,17 @@ rmv_button.addEventListener("click", () => {
   console.log(state);
   state = state.filter((todo) => !todo.done);
   updateLocalStorage();
+  render();
+});
+
+all_filter.addEventListener("change", () => {
+  render();
+});
+
+open_filter.addEventListener("change", () => {
+  render();
+});
+
+done_filter.addEventListener("change", () => {
   render();
 });
