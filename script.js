@@ -2,11 +2,13 @@ const add_button = document.getElementById("add");
 const todo_list = document.getElementById("todo-list");
 const localStorageKey = "key";
 
+let state = [];
+
 function render() {
   todo_list.innerHTML = "";
-  if (localStorage.getItem(localStorageKey) !== null) {
-    let todos = JSON.parse(localStorage.getItem(localStorageKey));
-    for (let todo of todos) {
+  updateState();
+  if (state.length != 0) {
+    for (let todo of state) {
       visualize(todo);
     }
   }
@@ -14,12 +16,26 @@ function render() {
 
 render();
 
+function updateState() {
+  if (localStorage.getItem(localStorageKey) !== null)
+    state = JSON.parse(localStorage.getItem(localStorageKey));
+}
+
+function updateLocalStorage() {
+  localStorage.setItem(localStorageKey, JSON.stringify(state));
+}
+
 function visualize(todoObject) {
   // Checkbox erstellen
   const checkbox = document.createElement("input");
   checkbox.type = "checkbox";
-  //checkbox.name = "done";
+  checkbox.name = "done";
   checkbox.checked = todoObject.done;
+  checkbox.id = todoObject.id;
+  checkbox.addEventListener("change", (e) => {
+    todoObject.done = e.target.checked;
+    updateLocalStorage();
+  });
   // Span erstellen
   const span = document.createElement("span");
   span.textContent = todoObject.description;
@@ -33,6 +49,7 @@ function visualize(todoObject) {
   form.append(label);
   // List erstellen
   const list = document.createElement("li");
+  // Form in List einfügen
   list.append(form);
   todo_list.appendChild(list);
 }
@@ -42,7 +59,6 @@ function createTodoObject(todo_txt) {
   todo.id = Date.now();
   todo.description = todo_txt;
   todo.done = false;
-  console.log(todo);
   return todo;
 }
 
@@ -50,14 +66,7 @@ add_button.addEventListener("click", () => {
   const todo_input = document.getElementById("input");
   const todoObject = createTodoObject(todo_input.value);
   visualize(todoObject);
-  if (localStorage.getItem(localStorageKey) !== null) {
-    let todos = JSON.parse(localStorage.getItem(localStorageKey));
-    todos.push(todoObject);
-    localStorage.setItem(localStorageKey, JSON.stringify(todos));
-  } else {
-    let arr = [];
-    arr.push(todoObject);
-    localStorage.setItem(localStorageKey, JSON.stringify(arr));
-  }
+  state.push(todoObject);
+  updateLocalStorage();
   todo_input.value = "";
 });
