@@ -1,5 +1,6 @@
-const add_button = document.getElementById("add");
 const todo_list = document.getElementById("todo-list");
+const add_button = document.getElementById("add");
+const rmv_button = document.getElementById("remove");
 const localStorageKey = "key";
 
 let state = [];
@@ -7,11 +8,7 @@ let state = [];
 function render() {
   todo_list.innerHTML = "";
   updateState();
-  if (state.length != 0) {
-    for (let todo of state) {
-      visualize(todo);
-    }
-  }
+  visualizeState();
 }
 
 render();
@@ -25,8 +22,16 @@ function updateLocalStorage() {
   localStorage.setItem(localStorageKey, JSON.stringify(state));
 }
 
+function visualizeState() {
+  if (state.length != 0) {
+    for (let todo of state) {
+      visualize(todo);
+    }
+  }
+}
+
 function visualize(todoObject) {
-  // Checkbox erstellen
+  // Checkbox erstellen und mit EventListener versehen
   const checkbox = document.createElement("input");
   checkbox.type = "checkbox";
   checkbox.name = "done";
@@ -69,4 +74,11 @@ add_button.addEventListener("click", () => {
   state.push(todoObject);
   updateLocalStorage();
   todo_input.value = "";
+});
+
+rmv_button.addEventListener("click", () => {
+  console.log(state);
+  state = state.filter((todo) => !todo.done);
+  updateLocalStorage();
+  render();
 });
