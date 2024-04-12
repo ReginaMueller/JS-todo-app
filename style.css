@@ -1,0 +1,89 @@
+/* grape-nuts-regular - latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Grape Nuts";
+  font-style: normal;
+  font-weight: 400;
+  src: url("grape-nuts-v5-latin-regular.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+html {
+  display: grid;
+  place-items: center;
+  background-image: linear-gradient(45deg, Mediumslateblue, Orchid, hotpink);
+}
+
+body {
+  width: 20rem;
+  margin-top: 3rem;
+  margin-bottom: 40%;
+  border: 0.2rem solid;
+  border-color: white;
+  border-radius: 2rem;
+  padding: 1rem;
+}
+
+h1 {
+  color: white;
+  text-align: center;
+}
+
+.filter {
+  display: flex;
+  justify-content: space-between;
+}
+
+.filter label {
+  border: 0.2rem solid;
+  border-color: white;
+  border-radius: 0.5rem;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 2rem;
+  color: Midnightblue;
+}
+
+.filter label + label {
+  margin-left: 1rem;
+}
+
+form {
+  width: auto;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  margin-top: 1rem;
+  border-radius: 0.5rem;
+  background-color: white;
+  border: 0.2rem solid;
+  border-color: white;
+  display: flex;
+  align-items: center;
+  color: #000070;
+  font-family: "Grape Nuts";
+  font-size: x-large;
+}
+
+.add input {
+  width: 95%;
+  border: none;
+  padding: 0.5rem;
+  font-family: "Grape Nuts";
+  font-size: large;
+  outline: none;
+}
+
+.add {
+  margin-bottom: 2.5rem;
+}
+
+form span {
+  width: 90%;
+  padding: 0.5rem;
+}
+
+h2 {
+  padding-right: 0.5rem;
+  margin: 0;
+  z-index: 2;
+  font-size: 25px;
+}

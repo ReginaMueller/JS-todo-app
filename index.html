@@ -4,23 +4,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
     <title>Document</title>
 </head>
 
 <body id="body">
-    <h1>Todo App</h1>
+    <h1>TODO</h1>
+    <div class="filter">
+        <label id="all">All</label>
+        <label id="open">Open</label>
+        <label id="done">Done</label>
+    </div>
 
-    <label for="all">All</label>
-    <input type="radio" id="all" name="filter" value="all" checked> <br>
-    <label for="open">Open</label>
-    <input type="radio" id="open" name="filter" value="open"> <br>
-    <label for="done">Done</label>
-    <input type="radio" id="done" name="filter" value="done"><br> <br>
+    <form class="add" id="add-form">
+        <input id="input" type="text" placeholder="what heroic deed do I want to do next?">
+    </form>
 
-    <button id="remove">remove done todos</button>
-    <input id="input" type="text" value="what's up?">
-    <button id="add">Add</button>
-    <ul id="todo-list"></ul>
+    <div class="todo-list" id="todo-list"></div>
 
     <script src="script.js"></script>
 </body>
