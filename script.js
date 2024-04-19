@@ -133,10 +133,10 @@ function handleIcons(form) {
     h2_trash.hidden = "true";
   });
   trash.addEventListener("click", (e) => {
-    e.stopPropagation();
     state = state.filter((todo) => todo.id != form.id);
     deleteTodo(form.id);
     refresh();
+    e.stopPropagation();
   });
 }
 
@@ -172,9 +172,9 @@ add_form.addEventListener("submit", (event) => {
   event.preventDefault();
   const todo_input = document.getElementById("input");
   const todoObject = createTodoObject(todo_input.value.trim());
-  visualize(todoObject);
-  state.push(todoObject);
   postTodo(todoObject);
+  refresh();
+  visualize(todoObject);
   todo_input.value = "";
 });
 
