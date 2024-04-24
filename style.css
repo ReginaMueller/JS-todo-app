@@ -16,7 +16,7 @@ html {
 }
 
 body {
-  width: 20rem;
+  max-width: 20rem;
   margin-top: 3rem;
   border: 0.2rem solid;
   border-color: white;
@@ -89,21 +89,28 @@ h2 {
   font-size: 25px;
 }
 
-input#input:-internal-autofill-selected {
-  appearance: menulist-button;
-  background-image: none !important;
-  background-color: transparent !important;
-  _background-color: -internal-light-dark(
-    rgb(232, 240, 254),
-    rgba(70, 90, 126, 0.4)
-  ) !important;
-  color: fieldtext !important;
-}
-
-input:-webkit-autofill,
+input:-webkit-autofill::first-line,
+input:autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
-input:-webkit-autofill:active {
+textarea:-webkit-autofill::first-line,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill::first-line,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  -webkit-text-fill-color: Midnightblue;
   transition: background-color 5000s ease-in-out 0s !important;
-  background-color: transparent !important;
+}
+
+/* error handling */
+.todo-list {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Grape Nuts";
+  font-style: normal;
+  font-weight: 400;
+  src: url("grape-nuts-v5-latin-regular.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+  font-size: 25px;
+  color: white;
+  text-align: center;
 }

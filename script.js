@@ -15,35 +15,10 @@ function refresh() {
     .then((todosFromApi) => {
       state = todosFromApi;
       render();
+    })
+    .catch((error) => {
+      handleError();
     });
-}
-
-function postTodo(todoObject) {
-  fetch("http://localhost:4730/todos", {
-    method: "POST",
-    headers: { "Content-type": "application/json" },
-    body: JSON.stringify(todoObject),
-  })
-    .then((res) => res.json())
-    .then(() => {});
-}
-
-function putTodo(todoObject) {
-  fetch("http://localhost:4730/todos/" + todoObject.id, {
-    method: "PUT",
-    headers: { "Content-type": "application/json" },
-    body: JSON.stringify(todoObject),
-  })
-    .then((res) => res.json())
-    .then(() => {});
-}
-
-function deleteTodo(id) {
-  fetch("http://localhost:4730/todos/" + id, {
-    method: "DELETE",
-  })
-    .then((res) => res.json())
-    .then(() => {});
 }
 
 function render() {
@@ -83,7 +58,17 @@ function visualize(todoObject) {
     form.checked = !form.checked;
     todoObject.done = form.checked;
     styleForm(form);
-    putTodo(todoObject);
+    /********** Backend **********/
+    fetch("http://localhost:4730/todos/" + todoObject.id, {
+      method: "PATCH",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify({ done: todoObject.done }),
+    })
+      .then((res) => res.json())
+      .then(() => {})
+      .catch((error) => {
+        handleError();
+      });
   });
 
   todo_list.appendChild(form);
@@ -133,9 +118,18 @@ function handleIcons(form) {
     h2_trash.hidden = "true";
   });
   trash.addEventListener("click", (e) => {
-    state = state.filter((todo) => todo.id != form.id);
-    deleteTodo(form.id);
-    refresh();
+    /********** Backend **********/
+    fetch("http://localhost:4730/todos/" + form.id, {
+      method: "DELETE",
+    })
+      .then((res) => res.json())
+      .then(() => {
+        refresh();
+      })
+      .catch((error) => {
+        handleError();
+      });
+
     e.stopPropagation();
   });
 }
@@ -172,11 +166,28 @@ add_form.addEventListener("submit", (event) => {
   event.preventDefault();
   const todo_input = document.getElementById("input");
   const todoObject = createTodoObject(todo_input.value.trim());
-  postTodo(todoObject);
-  refresh();
-  visualize(todoObject);
-  todo_input.value = "";
+  /********** Backend **********/
+  fetch("http://localhost:4730/todos", {
+    method: "POST",
+    headers: { "Content-type": "application/json" },
+    body: JSON.stringify(todoObject),
+  })
+    .then((res) => res.json())
+    .then(() => {
+      refresh();
+      todo_input.value = "";
+    })
+    .catch((error) => {
+      handleError();
+    });
 });
+
+function handleError() {
+  todo_list.innerHTML = "ups... the database is not available";
+  // todo_list.style.color = "white";
+  // todo_list.style.textAlign = "center";
+  // todo_list.style.fontSize = "25px";
+}
 
 refresh();
 render();
